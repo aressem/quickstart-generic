@@ -29,12 +29,15 @@ jobs:
       screwdriver.cd/cpu: TURBO
       screwdriver.cd/ram: TURBO
       screwdriver.cd/disk: HIGH
+      screwdriver.cd/dockerEnabled: true
     # Steps is the list of commands to execute.
     steps:
       - inspect: |
           cat /proc/cpuinfo
           cat /proc/meminfo
           df -h
+          docker --version
+          docker images
       # Each step takes the form "step_name: command_to_run".
       # The "step_name" is a convenient label to reference it by. The
       # "command_to_run" is the single command that is executed during this
