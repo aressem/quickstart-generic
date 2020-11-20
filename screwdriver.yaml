@@ -9,7 +9,7 @@ shared:
   # "repo_name:tag_label".
   #
   # (Source: https://hub.docker.com/r/library/buildpack-deps/)
-  image: vespaengine/vespa-dev
+  image: vespaengine/vespa-build-centos7
 
 # Job definition block
 # "main" is a default job that all pipelines have
@@ -29,15 +29,15 @@ jobs:
       screwdriver.cd/cpu: TURBO
       screwdriver.cd/ram: TURBO
       screwdriver.cd/disk: HIGH
-      screwdriver.cd/dockerEnabled: true
+      #screwdriver.cd/dockerEnabled: true
     # Steps is the list of commands to execute.
     steps:
       - inspect: |
           cat /proc/cpuinfo
           cat /proc/meminfo
           df -h
-          docker --version
-          docker images
+          #docker --version
+          #docker images
       # Each step takes the form "step_name: command_to_run".
       # The "step_name" is a convenient label to reference it by. The
       # "command_to_run" is the single command that is executed during this
