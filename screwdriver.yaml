@@ -45,7 +45,7 @@ jobs:
           ccache -z
 
       - compile: |
-          export JAVA_HOME=$(shell dirname $$(dirname $$(readlink -f /usr/bin/java)))
+          export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))
 
           source /opt/rh/devtoolset-9/enable
           source /opt/rh/rh-maven35/enable
