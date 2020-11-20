@@ -20,6 +20,8 @@ jobs:
       - checkout: |
           git clone https://github.com/vespa-engine/vespa
       - compile: |
+          source /opt/rh/devtoolset-9/enable
+          source /opt/rh/rh-maven35/enable
           cd vespa
           cmake3 -DVESPA_UNPRIVILEGED=no -DVALGRIND_UNIT_TESTS=true -DVESPA_CPU_ARCH_FLAGS="-march=sandybridge -mtune=skylake" .
           ./bootstrap.sh full
