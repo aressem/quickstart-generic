@@ -18,7 +18,7 @@ jobs:
           #docker --version
           #docker images
       - checkout: |
-          git clone https://github.com/vespa-engine/vespa
+          git clone --depth 1 https://github.com/vespa-engine/vespa
       - compile: |
           source /opt/rh/devtoolset-9/enable
           source /opt/rh/rh-maven35/enable
