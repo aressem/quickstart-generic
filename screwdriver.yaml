@@ -23,8 +23,8 @@ jobs:
           source /opt/rh/devtoolset-9/enable
           source /opt/rh/rh-maven35/enable
           cd vespa
-          cmake3 -DVESPA_UNPRIVILEGED=no -DVALGRIND_UNIT_TESTS=true -DVESPA_CPU_ARCH_FLAGS="-march=sandybridge -mtune=skylake" .
           ./bootstrap.sh full
+          cmake3 -DVESPA_UNPRIVILEGED=no -DVALGRIND_UNIT_TESTS=true -DVESPA_CPU_ARCH_FLAGS="-march=sandybridge -mtune=skylake" .
           make -j10
           make test ARGS="--output-on-failure -j $10"
           mvn --no-snapshot-updates --threads 1C -Dmaven.javadoc.skip=true -Dmaven.source.skip=true clean install
