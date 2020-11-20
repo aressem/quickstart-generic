@@ -13,6 +13,8 @@ jobs:
       screwdriver.cd/cpu: TURBO
       screwdriver.cd/ram: TURBO
       screwdriver.cd/disk: HIGH
+      screwdriver.cd/timeout: 600
+
       #screwdriver.cd/dockerEnabled: true
     environment:
       MVN: "mvn"
