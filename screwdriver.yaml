@@ -17,7 +17,8 @@ jobs:
     environment:
       MVN: "mvn"
       LOCAL_MVN_REPO: "/tmp/vespa/mvnrepo"
-      MAVEN_OPTS: "-B -nsu -T1C -Dmaven.repo.local=/tmp/vespa/mvnrepo -XX:-DoEscapeAnalysis -Dfile.encoding=UTF-8 -Xms3g -Xmx3g -Xss1m -XX:MaxJavaStackTraceDepth=1000000 -Dsurefire.exitTimeout=120 -Dmaven.javadoc.skip=true -Dmaven.source.skip=true"
+      MAVEN_OPTS: "-nsu -T1C -XX:-DoEscapeAnalysis -Dfile.encoding=UTF-8 -Xms3g -Xmx3g -Xss1m -XX:MaxJavaStackTraceDepth=1000000 -Dsurefire.exitTimeout=120"
+      MAVEN_EXTRA_OPTS: "-Dmaven.repo.local=/tmp/vespa/mvnrepo -Dmaven.javadoc.skip=true -Dmaven.source.skip=true"
       CCACHE_DIR: "/tmp/vespa/ccache"
       CCACHE_TMP_DIR: "/tmp/ccache_tmp"
       CCACHE_COMPRESS: "1"
@@ -54,7 +55,7 @@ jobs:
           cmake3 -DVESPA_UNPRIVILEGED=no -DVALGRIND_UNIT_TESTS=true -DVESPA_CPU_ARCH_FLAGS="-march=sandybridge -mtune=skylake" .
           make -j10
           make test ARGS="--output-on-failure -j $10"
-          $MVN $MVN_OPTS clean install
+          $MVN $MAVEN_OPTS $MAVEN_EXTRA_OPTS clean install
 
       - save-cache: |
           # Print ccache stats
