@@ -56,8 +56,8 @@ jobs:
           ./bootstrap.sh full
           cmake3 -DVESPA_UNPRIVILEGED=no -DVALGRIND_UNIT_TESTS=true -DVESPA_CPU_ARCH_FLAGS="-march=sandybridge -mtune=skylake" .
           make -j10
-          make test ARGS="--output-on-failure -j $10"
-          $MVN $MAVEN_OPTS $MAVEN_EXTRA_OPTS clean install
+          #make test ARGS="--output-on-failure -j $10"
+          #$MVN $MAVEN_OPTS $MAVEN_EXTRA_OPTS clean install
 
       - save-cache: |
           # Print ccache stats
