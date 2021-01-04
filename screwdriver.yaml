@@ -26,6 +26,9 @@ jobs:
       MAIN_CACHE_FILE: "/main_job_cache/vespa.tar"
 
     steps:
+      - try-podman: |
+          yum install -y podman
+          podman ps --log-level=debug -a
       - try-docker: |
           ls -la /var/run/docker.sock
           exit 1
