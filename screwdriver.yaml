@@ -28,7 +28,7 @@ jobs:
     steps:
       - try-podman: |
           yum install -y podman
-          sed 's,"overlay","vfs",' /etc/containers/storage.conf
+          sed -i 's,"overlay","vfs",' /etc/containers/storage.conf
           podman --log-level=debug ps -a
           podman run  --net=host --events-backend=file  --cgroup-manager=cgroupfs --rm -ti --entrypoint bash vespaengine/vespa /opt/vespa/bin/vespa-start-configserver
 
