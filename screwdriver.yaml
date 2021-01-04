@@ -10,12 +10,11 @@ jobs:
   main:
     requires: [~pr, ~commit]
     annotations:
-      screwdriver.cd/cpu: TURBO
-      screwdriver.cd/ram: TURBO
+      screwdriver.cd/cpu: 8
+      screwdriver.cd/ram: 16
       screwdriver.cd/disk: HIGH
       screwdriver.cd/timeout: 600
-
-      #screwdriver.cd/dockerEnabled: true
+      screwdriver.cd/dockerEnabled: true
     environment:
       MVN: "mvn"
       LOCAL_MVN_REPO: "/tmp/vespa/mvnrepo"
@@ -27,6 +26,9 @@ jobs:
       MAIN_CACHE_FILE: "/main_job_cache/vespa.tar"
 
     steps:
+      - try-docker: |
+          ls -la /var/run/docker.sock
+          exit 1
       - inspect: |
           cat /proc/cpuinfo
           cat /proc/meminfo
