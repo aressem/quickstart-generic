@@ -28,7 +28,10 @@ jobs:
     steps:
       - try-podman: |
           yum install -y podman
-          podman ps --log-level=debug -a
+          sed 's,"overlay","vfs",' /etc/containers/storage.conf
+          podman --log-level=debug ps -a
+          podman run  --net=host --events-backend=file  --cgroup-manager=cgroupfs --rm -ti --entrypoint bash vespaengine/vespa /opt/vespa/bin/vespa-start-configserver
+
       - try-docker: |
           ls -la /var/run/docker.sock
           exit 1
