@@ -7,31 +7,37 @@ shared:
   image: centos:8
 
 jobs:
-  main:
+  test-docker:
     requires: [~pr, ~commit]
     annotations:
       screwdriver.cd/cpu: HIGH
       screwdriver.cd/ram: HIGH
-      screwdriver.cd/disk: HIGH
-      screwdriver.cd/timeout: 60
+      screwdriver.cd/timeout: 10
       screwdriver.cd/dockerEnabled: true
 
     steps:
       - set-x: set +x
+      - try-docker: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+          dnf install -y docker-ce-cli
+          ls -la /var/run/docker.sock || true
+          docker system info
+          podman run --net=host --rm docker.io/alpine cat /etc/alpine-release
+          docker run --net=host --rm --entrypoint bash vespaengine/vespa /opt/vespa/bin/vespa-start-configserver
+
+  test-podman:
+    requires: [~pr, ~commit]
+    annotations:
+      screwdriver.cd/cpu: HIGH
+      screwdriver.cd/ram: HIGH
+      screwdriver.cd/timeout: 10
+
+    steps:
+      - set-x: set +x
       - try-podman: |
-          yum install -y podman
+          dnf install -y podman
           sed -i 's,"overlay","vfs",' /etc/containers/storage.conf
           podman --log-level=debug ps -a
-          podman run  --net=host --events-backend=file  --cgroup-manager=cgroupfs --rm -ti --entrypoint bash vespaengine/vespa /opt/vespa/bin/vespa-start-configserver
-
-      - try-docker: |
-          ls -la /var/run/docker.sock
-          exit 1
-
-      - inspect: |
-          cat /proc/cpuinfo
-          cat /proc/meminfo
-          df -h
-
-          #docker --version
-          #docker images
+          podman run --net=host --events-backend=file --cgroup-manager=cgroupfs --rm docker.io/alpine cat /etc/alpine-release
+          podman run --net=host --events-backend=file --cgroup-manager=cgroupfs --rm --entrypoint bash vespaengine/vespa /opt/vespa/bin/vespa-start-configserver
