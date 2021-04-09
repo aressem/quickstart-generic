@@ -1,18 +1,15 @@
 ---
-cache:
-   job:
-       main: [/main_job_cache]
-
 shared:
   image: centos:8
+  annotations:
+    screwdriver.cd/cpu: HIGH
+    screwdriver.cd/ram: HIGH
+    screwdriver.cd/timeout: 10
 
 jobs:
   test-docker:
     requires: [~pr, ~commit]
     annotations:
-      screwdriver.cd/cpu: HIGH
-      screwdriver.cd/ram: HIGH
-      screwdriver.cd/timeout: 10
       screwdriver.cd/dockerEnabled: true
 
     steps:
@@ -28,11 +25,6 @@ jobs:
 
   test-podman:
     requires: [~pr, ~commit]
-    annotations:
-      screwdriver.cd/cpu: HIGH
-      screwdriver.cd/ram: HIGH
-      screwdriver.cd/timeout: 10
-
     steps:
       - set-x: set +x
       - try-podman: |
