@@ -24,11 +24,12 @@ jobs:
           dnf install -y git
           git clone https://github.com/vespa-engine/documentation
           cd documentation
-          docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint /wd/travis/compile-and-test.sh vespaengine/vespa-pipeline
+          #docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint /wd/travis/compile-and-test.sh vespaengine/vespa-pipeline
+          docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint bash vespaengine/vespa-pipeline -lc "ls -la /  && mount "
 
 
   test-podman:
-    requires: [~pr, ~commit]
+    #requires: [~pr, ~commit]
     steps:
       - set-x: set -x
       - try-podman: |
