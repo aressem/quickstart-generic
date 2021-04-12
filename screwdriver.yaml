@@ -4,7 +4,7 @@ shared:
   annotations:
     screwdriver.cd/cpu: HIGH
     screwdriver.cd/ram: HIGH
-    screwdriver.cd/timeout: 10
+    screwdriver.cd/timeout: 60
 
 jobs:
   test-docker:
