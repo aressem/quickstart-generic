@@ -15,14 +15,17 @@ jobs:
     steps:
       - set-x: set +x
       - try-docker: |
-          export DOCKER_HOST="localhost:2375"
           dnf install -y dnf-plugins-core
           dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
           dnf install -y docker-ce-cli
-          ls -la /var/run/docker.sock || true
+          export DOCKER_HOST="localhost:2375"
           docker system info
-          docker run --net=host --rm docker.io/alpine cat /etc/alpine-release
-          docker run --net=host --rm --entrypoint bash vespaengine/vespa /opt/vespa/bin/vespa-start-configserver
+      - test: |
+          dnf install -y git
+          git clone https://github.com/vespa-engine/documentation
+          cd documentation
+          docker run --rm --net=host -e DOCKER_HOST -v $(pwd):$(pwd) -w $(pwd) --entrypoint $(pwd)/travis/compile-and-test.sh vespaengine/vespa-pipeline
+
 
   test-podman:
     requires: [~pr, ~commit]
