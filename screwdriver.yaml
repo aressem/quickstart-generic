@@ -21,7 +21,7 @@ jobs:
           dnf install -y docker-ce-cli
           ls -la /var/run/docker.sock || true
           docker system info
-          podman run --net=host --rm docker.io/alpine cat /etc/alpine-release
+          docker run --net=host --rm docker.io/alpine cat /etc/alpine-release
           docker run --net=host --rm --entrypoint bash vespaengine/vespa /opt/vespa/bin/vespa-start-configserver
 
   test-podman:
