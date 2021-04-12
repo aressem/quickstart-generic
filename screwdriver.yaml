@@ -13,7 +13,7 @@ jobs:
       screwdriver.cd/dockerEnabled: true
 
     steps:
-      - set-x: set +x
+      - set-x: set -x
       - try-docker: |
           dnf install -y dnf-plugins-core
           dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -24,13 +24,13 @@ jobs:
           dnf install -y git
           git clone https://github.com/vespa-engine/documentation
           cd documentation
-          docker run --rm --net=host -e DOCKER_HOST -v $(pwd):$(pwd) -w $(pwd) --entrypoint $(pwd)/travis/compile-and-test.sh vespaengine/vespa-pipeline
+          docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint /wd/travis/compile-and-test.sh vespaengine/vespa-pipeline
 
 
   test-podman:
     requires: [~pr, ~commit]
     steps:
-      - set-x: set +x
+      - set-x: set -x
       - try-podman: |
           dnf install -y podman
           sed -i 's,"overlay","vfs",' /etc/containers/storage.conf
