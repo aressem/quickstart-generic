@@ -27,7 +27,7 @@ jobs:
           #docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint /wd/travis/compile-and-test.sh vespaengine/vespa-pipeline
           docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint bash vespaengine/vespa-pipeline -lc "ls -la /  && mount && ls -la /wd"
       - test-copy: |
-          docker run -w /wd --rm -d --name testc --net=host -e DOCKER_HOST --init --entrypoint /usr/bin/tail vespaengine/vespa-pipeline -f /dev/null
+          docker run -w /wd/documentation --rm -d --name testc --net=host -e DOCKER_HOST --init --entrypoint /usr/bin/tail vespaengine/vespa-pipeline -f /dev/null
           docker cp $(pwd) testc:/wd
           docker exec testc ls -la /wd
           docker exec testc /wd/documentation/travis/compile-and-test.sh
