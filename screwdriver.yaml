@@ -48,9 +48,11 @@ jobs:
           # Some procedures use openssl
           yum install -y openssl
 
-          export VESPA_TEAM_API_KEY
+          export VESPA_TEAM_API_KEY=secret
 
           cd $SD_DIND_SHARE_PATH
+
+          cp -a $SD_SOURCE_DIR/documentation/test/_test_config.yml .
 
           # Run all tests
           $SD_SOURCE_DIR/documentation/test/test.py
