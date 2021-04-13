@@ -29,7 +29,7 @@ jobs:
       - test: |
           cd $SD_DIND_SHARE_PATH
 
-          dnf install -y git
+          yum install -y git
           git clone https://github.com/vespa-engine/documentation
 
           docker run --rm --net=host -e DOCKER_HOST -v $SD_DIND_SHARE_PATH:$SD_DIND_SHARE_PATH -w $SD_DIND_SHARE_PATH --entrypoint bash vespaengine/vespa -lc "pwd && ls -la && mount && ls -la / "
