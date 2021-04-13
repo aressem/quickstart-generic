@@ -32,7 +32,8 @@ jobs:
           yum install -y git
           git clone https://github.com/vespa-engine/documentation
 
-          docker run --rm --net=host -e DOCKER_HOST -v $SD_DIND_SHARE_PATH:$SD_DIND_SHARE_PATH -w $SD_DIND_SHARE_PATH --entrypoint bash vespaengine/vespa -lc "pwd && ls -la && mount && ls -la / "
+          #docker run --rm --net=host -e DOCKER_HOST -v $SD_DIND_SHARE_PATH:$SD_DIND_SHARE_PATH -w $SD_DIND_SHARE_PATH --entrypoint bash vespaengine/vespa -lc "pwd && ls -la && mount && ls -la / "
+          docker run --rm --net=host -v $SD_DIND_SHARE_PATH:/wd -w /wd --entrypoint bash vespaengine/vespa -lc "pwd && ls -la && mount && ls -la / "
 
           #cd documentation
           #docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint /wd/travis/compile-and-test.sh vespaengine/vespa-pipeline
