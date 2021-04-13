@@ -20,6 +20,11 @@ jobs:
           dnf install -y docker-ce-cli
           export DOCKER_HOST="localhost:2375"
           docker system info
+          ls -la $SD_DIND_SHARE_PATH
+          mount
+          df -h
+          pwd
+
       - test: |
           dnf install -y git
           git clone https://github.com/vespa-engine/documentation
