@@ -21,7 +21,7 @@ jobs:
           travis/compile-and-test.sh
       - deploy: |
           if [[ -z $SD_PULL_REQUEST ]]; then
-            travis/deploy-album-recommendation-searcher-docker.sh
+            travis/deploy-album-recommendation-searcher.sh
           fi
 
   system-test:
