@@ -7,6 +7,23 @@ shared:
     screwdriver.cd/timeout: 60
 
 jobs:
+  sample-apps:
+    image: docker.io/vespaengine/vespa-pipeline:latest
+    requires: [~commit]
+    annotations:
+      screwdriver.cd/cpu: 7
+      screwdriver.cd/ram: 16
+    steps:
+      - clone: |
+          git clone https://github.com/vespa-engine/sample-apps
+          cd sample-apps
+      - compile: |
+          travis/compile-and-test.sh
+      - deploy: |
+          if [[ -z $SD_PULL_REQUEST ]]; then
+            travis/deploy-album-recommendation-searcher-docker.sh
+          fi
+
   system-test:
     image: docker.io/vespaengine/vespa-build-centos7:latest
     requires: [~commit]
@@ -17,23 +34,9 @@ jobs:
       - clone: |
           git clone https://github.com/vespa-engine/system-test
           cd system-test
-      - execute: |
-          export RUBYLIB=$(pwd)/lib
-
-          yum -y install \
-            libxml2-devel \
-            rh-ruby27-rubygems-devel \
-            rh-ruby27-ruby-devel \
-            rh-ruby27 \
-            rh-ruby27-rubygem-net-telnet
-
-          source /opt/rh/devtoolset-9/enable
-          source /opt/rh/rh-ruby27/enable
-
-          gem install libxml-ruby gnuplot distribution test-unit builder
-
-          cd ${RUBYLIB}
-          ruby test/testrunner.rb
+      - test: |
+          ln -sf $(pwd) /source
+          travis/run-unit-tests.sh
 
   test-docker:
     image: vespaengine/vespa-pipeline
