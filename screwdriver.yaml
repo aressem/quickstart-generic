@@ -40,12 +40,13 @@ jobs:
 
   test-docker:
     image: vespaengine/vespa-pipeline
-    #requires: [~pr, ~commit]
+    requires: [~pr, ~commit]
     annotations:
       screwdriver.cd/cpu: 7
       screwdriver.cd/ram: 16
       screwdriver.cd/dockerEnabled: true
-
+      screwdriver.cd/dockerCpu: 7
+      screwdriver.cd/dockerRam: 16
     steps:
       - set-x: set -x
       - try-docker: |
@@ -88,17 +89,17 @@ jobs:
           cp -a $SD_SOURCE_DIR/documentation/test/_test_config.yml .
 
           # Run all tests
-          #$SD_SOURCE_DIR/documentation/test/test.py
+          $SD_SOURCE_DIR/documentation/test/test.py
 
-          git clone https://github.com/vespa-engine/sample-apps.git
-          cd sample-apps/album-recommendation-selfhosted
-          docker run --detach --name vespa --hostname vespa-container  --publish 8080:8080 --publish 19071:19071 vespaengine/vespa
-          sleep 60
-          curl -s --head http://localhost:19071/ApplicationStatus
-          tar -C src/main/application -cf - . | gzip |  curl --header Content-Type:application/x-gzip --data-binary @- localhost:19071/application/v2/tenant/default/session
-          curl -X PUT localhost:19071/application/v2/tenant/default/session/2/prepared
-          curl -X PUT localhost:19071/application/v2/tenant/default/session/2/active
-          docker exec -ti vespa /opt/vespa/bin/vespa-logfmt -f -N
+          #git clone https://github.com/vespa-engine/sample-apps.git
+          #cd sample-apps/album-recommendation-selfhosted
+          #docker run --detach --name vespa --hostname vespa-container  --publish 8080:8080 --publish 19071:19071 vespaengine/vespa
+          #sleep 60
+          #curl -s --head http://localhost:19071/ApplicationStatus
+          #tar -C src/main/application -cf - . | gzip |  curl --header Content-Type:application/x-gzip --data-binary @- localhost:19071/application/v2/tenant/default/session
+          #curl -X PUT localhost:19071/application/v2/tenant/default/session/2/prepared
+          #curl -X PUT localhost:19071/application/v2/tenant/default/session/2/active
+          #docker exec -ti vespa /opt/vespa/bin/vespa-logfmt -f -N
 
           #cd documentation
           #docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint bash vespaengine/vespa-pipeline -lc "ls -la /  && mount && ls -la /wd"
