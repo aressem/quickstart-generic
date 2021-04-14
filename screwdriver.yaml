@@ -18,7 +18,7 @@ jobs:
           git clone https://github.com/vespa-engine/system-test
           cd system-test
       - execute: |
-          export RUBYLIB=/source/lib
+          export RUBYLIB=$(pwd)/lib
 
           yum -y install \
             libxml2-devel \
