@@ -69,16 +69,6 @@ jobs:
           yum install -y git
           git clone https://github.com/vespa-engine/documentation
           cd documentation
-          #docker run --rm --net=host -e DOCKER_HOST -v $SD_DIND_SHARE_PATH:$SD_DIND_SHARE_PATH -w $SD_DIND_SHARE_PATH --entrypoint bash vespaengine/vespa -lc "pwd && ls -la && mount && ls -la / "
-          #docker run --rm --net=host -v $SD_DIND_SHARE_PATH:/wd -w /wd --entrypoint bash vespaengine/vespa -lc "pwd && ls -la && mount && ls -la / "
-
-
-          #docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint /wd/travis/compile-and-test.sh vespaengine/vespa-pipeline
-
-          #cat << EOF > test/_test_config.yml
-          #urls:
-          #    - "http://docs.vespa.ai/documentation/vespa-quick-start.html"
-          #EOF
 
           yum install -y python36-pip
           pip3 install -qqq --upgrade pip
@@ -89,47 +79,27 @@ jobs:
 
           cd $SD_DIND_SHARE_PATH
 
-          cat $SD_SOURCE_DIR/documentation/test/_test_config.yml | grep -E "(^urls|docs.vespa.ai|raw.githubusercontent.com)" > _test_config.yml
+          #cat $SD_SOURCE_DIR/documentation/test/_test_config.yml | grep -E "(^urls|docs.vespa.ai|raw.githubusercontent.com)" > _test_config.yml
+          cp $SD_SOURCE_DIR/documentation/test/_test_config.yml .
 
           # Run all tests
           $SD_SOURCE_DIR/documentation/test/test.py
 
-          #git clone https://github.com/vespa-engine/sample-apps.git
-          #cd sample-apps/album-recommendation-selfhosted
-          #docker run --detach --name vespa --hostname vespa-container  --publish 8080:8080 --publish 19071:19071 vespaengine/vespa
-          #sleep 60
-          #curl -s --head http://localhost:19071/ApplicationStatus
-          #tar -C src/main/application -cf - . | gzip |  curl --header Content-Type:application/x-gzip --data-binary @- localhost:19071/application/v2/tenant/default/session
-          #curl -X PUT localhost:19071/application/v2/tenant/default/session/2/prepared
-          #curl -X PUT localhost:19071/application/v2/tenant/default/session/2/active
-          #docker exec -ti vespa /usr/bin/nproc
-          #docker exec -ti vespa /usr/bin/cat /proc/cpuinfo
-          #docker exec -ti vespa /usr/bin/cat /proc/meminfo
-          #docker exec -ti vespa /usr/bin/ps auxwww
-          #sleep 2
-          #docker exec -ti vespa /usr/bin/ps auxwww
-          #sleep 2
-          #docker exec -ti vespa /usr/bin/ps auxwww
-          #docker exec -ti vespa /usr/bin/ps auxwww
-          #docker exec -ti vespa /usr/bin/yum install -y net-tools bind-utils
-          #docker exec -ti vespa /usr/sbin/ifconfig
-          #docker exec -ti vespa /usr/bin/netstat -natup|grep LISTEN
-          #docker exec -ti vespa /usr/bin/hostname
-          #docker exec -ti vespa /usr/bin/cat /etc/hostname
-          #docker exec -ti vespa /usr/bin/cat /etc/hosts
-          #docker exec -ti vespa /usr/bin/nslookup vespa-container || true
-
-          #docker exec -ti vespa /opt/vespa/bin/vespa-logfmt -f -N
-
-          #cd documentation
-          #docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint bash vespaengine/vespa-pipeline -lc "ls -la /  && mount && ls -la /wd"
-#      - test-copy: |
-#          docker run -w /wd/documentation --rm -d --name testc --net=host -e DOCKER_HOST --init --entrypoint /usr/bin/tail vespaengine/vespa-pipeline -f /dev/null
-#          docker cp $(pwd) testc:/wd
-#          docker exec testc ls -la /wd
-#          docker exec testc /wd/documentation/travis/compile-and-test.sh
-#          docker stop testc
-#          docker rm -f testc
+  test-pyvespa:
+    image: vespaengine/vespa-pipeline
+    requires: [~commit]
+    annotations:
+      screwdriver.cd/timeout: 300
+      screwdriver.cd/cpu: 4
+      screwdriver.cd/ram: 8
+      screwdriver.cd/dockerEnabled: true
+      screwdriver.cd/dockerCpu: TURBO
+      screwdriver.cd/dockerRam: TURBO
+    secrets:
+      - VESPA_TEAM_API_KEY
+    steps:
+      - set-x: set -x
+      - try-docker: |
 
   test-podman:
     #requires: [~pr, ~commit]
