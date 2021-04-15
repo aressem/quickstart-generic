@@ -47,8 +47,8 @@ jobs:
       screwdriver.cd/cpu: 7
       screwdriver.cd/ram: 16
       screwdriver.cd/dockerEnabled: true
-      screwdriver.cd/dockerCpu: HIGH
-      screwdriver.cd/dockerRam: HIGH
+      screwdriver.cd/dockerCpu: TURBO
+      screwdriver.cd/dockerRam: TURBO
     secrets:
       - VESPA_TEAM_API_KEY
     steps:
