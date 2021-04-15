@@ -102,7 +102,20 @@ jobs:
           docker exec -ti vespa /usr/bin/nproc
           docker exec -ti vespa /usr/bin/cat /proc/cpuinfo
           docker exec -ti vespa /usr/bin/cat /proc/meminfo
-          docker exec -ti vespa /usr/bin/ps aux
+          docker exec -ti vespa /usr/bin/ps auxwww
+          sleep 2
+          docker exec -ti vespa /usr/bin/ps auxwww
+          sleep 2
+          docker exec -ti vespa /usr/bin/ps auxwww
+          docker exec -ti vespa /usr/bin/ps auxwww
+          docker exec -ti vespa /usr/bin/yum install -y net-tools bind-utils
+          docker exec -ti vespa /usr/sbin/ifconfig
+          docker exec -ti vespa /usr/bin/netstat -natup|grep LISTEN
+          docker exec -ti vespa /usr/bin/hostname
+          docker exec -ti vespa /usr/bin/cat /etc/hostname
+          docker exec -ti vespa /usr/bin/cat /etc/hosts
+          docker exec -ti vespa /usr/bin/nslookup \$(hostname)
+
           docker exec -ti vespa /opt/vespa/bin/vespa-logfmt -f -N
 
           #cd documentation
