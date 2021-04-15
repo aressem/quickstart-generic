@@ -11,8 +11,8 @@ jobs:
     image: docker.io/vespaengine/vespa-pipeline:latest
     #requires: [~commit]
     annotations:
-      screwdriver.cd/cpu: 7
-      screwdriver.cd/ram: 16
+      screwdriver.cd/cpu: HIGH
+      screwdriver.cd/ram: HIGH
     secrets:
       - ALBUM_RECOMMENDATION_JAVA_DEPLOY_KEY
     steps:
@@ -30,8 +30,8 @@ jobs:
     image: docker.io/vespaengine/vespa-build-centos7:latest
     #requires: [~commit]
     annotations:
-      screwdriver.cd/cpu: 7
-      screwdriver.cd/ram: 16
+      screwdriver.cd/cpu: LOW
+      screwdriver.cd/ram: LOW
     steps:
       - clone: |
           git clone https://github.com/vespa-engine/system-test
@@ -44,11 +44,12 @@ jobs:
     image: vespaengine/vespa-pipeline
     requires: [~commit]
     annotations:
-      screwdriver.cd/cpu: 7
-      screwdriver.cd/ram: 16
+      screwdriver.cd/timeout: 300
+      screwdriver.cd/cpu: 4
+      screwdriver.cd/ram: 8
       screwdriver.cd/dockerEnabled: true
-      screwdriver.cd/dockerCpu: TURBO
-      screwdriver.cd/dockerRam: HIGH
+      screwdriver.cd/dockerCpu: 4
+      screwdriver.cd/dockerRam: 20
     secrets:
       - VESPA_TEAM_API_KEY
     steps:
