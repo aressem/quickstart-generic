@@ -24,10 +24,10 @@ jobs:
           travis/compile-and-test.sh
       - deploy: |
           set -x
-          echo $TEST_PEM
-          echo $TEST_PEM | openssl base64 -A -a -d -out test.key
-          cat test.key
-          set +x
+          #echo "$TEST_PEM"
+          #echo "$TEST_PEM" | openssl base64 -A -a -d -out test.key
+          #cat test.key
+          #set +x
           if [[ -z $SD_PULL_REQUEST ]]; then
             travis/deploy-album-recommendation-searcher.sh
           fi
