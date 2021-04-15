@@ -70,10 +70,10 @@ jobs:
 
           #docker run --rm --net=host -e DOCKER_HOST -v $(pwd):/wd -w /wd --entrypoint /wd/travis/compile-and-test.sh vespaengine/vespa-pipeline
 
-          cat << EOF > test/_test_config.yml
-          urls:
-              - "http://docs.vespa.ai/documentation/vespa-quick-start.html"
-          EOF
+          #cat << EOF > test/_test_config.yml
+          #urls:
+          #    - "http://docs.vespa.ai/documentation/vespa-quick-start.html"
+          #EOF
 
           yum install -y python36-pip
           pip3 install -qqq --upgrade pip
