@@ -28,7 +28,8 @@ jobs:
           #echo "$TEST_PEM" | openssl base64 -A -a -d -out test.key
           #cat test.key
           #set +x
-          export ALBUM_RECOMMENDATION_JAVA_DEPLOY_KEY="$(echo $ALBUM_RECOMMENDATION_JAVA_DEPLOY_KEY|base64 --decode)"
+          export ALBUM_RECOMMENDATION_JAVA_DEPLOY_KEY="$(echo "$ALBUM_RECOMMENDATION_JAVA_DEPLOY_KEY"|base64 --decode)"
+          echo "$ALBUM_RECOMMENDATION_JAVA_DEPLOY_KEY"
           if [[ -z $SD_PULL_REQUEST ]]; then
             travis/deploy-album-recommendation-searcher.sh
           fi
