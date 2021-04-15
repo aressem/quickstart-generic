@@ -9,7 +9,7 @@ shared:
 jobs:
   sample-apps:
     image: docker.io/vespaengine/vespa-pipeline:latest
-    requires: [~commit]
+    #requires: [~commit]
     annotations:
       screwdriver.cd/cpu: 7
       screwdriver.cd/ram: 16
@@ -40,15 +40,17 @@ jobs:
           ln -sf $(pwd) /source
           travis/run-unit-tests.sh
 
-  test-docker:
+  test-documentation:
     image: vespaengine/vespa-pipeline
-    #requires: [~pr, ~commit]
+    requires: [~commit]
     annotations:
       screwdriver.cd/cpu: 7
       screwdriver.cd/ram: 16
       screwdriver.cd/dockerEnabled: true
       screwdriver.cd/dockerCpu: HIGH
       screwdriver.cd/dockerRam: HIGH
+    secrets:
+      - VESPA_TEAM_API_KEY
     steps:
       - set-x: set -x
       - try-docker: |
@@ -84,11 +86,9 @@ jobs:
           # Some procedures use openssl
           yum install -y openssl
 
-          export VESPA_TEAM_API_KEY=secret
-
           cd $SD_DIND_SHARE_PATH
 
-          cp -a $SD_SOURCE_DIR/documentation/test/_test_config.yml .
+          cat $SD_SOURCE_DIR/documentation/test/_test_config.yml |grep "docs.vespa.ai" > _test_config.yml
 
           # Run all tests
           $SD_SOURCE_DIR/documentation/test/test.py
