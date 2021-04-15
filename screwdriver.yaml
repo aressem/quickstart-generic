@@ -85,22 +85,6 @@ jobs:
           # Run all tests
           $SD_SOURCE_DIR/documentation/test/test.py
 
-  test-pyvespa:
-    image: vespaengine/vespa-pipeline
-    requires: [~commit]
-    annotations:
-      screwdriver.cd/timeout: 300
-      screwdriver.cd/cpu: 4
-      screwdriver.cd/ram: 8
-      screwdriver.cd/dockerEnabled: true
-      screwdriver.cd/dockerCpu: TURBO
-      screwdriver.cd/dockerRam: TURBO
-    secrets:
-      - VESPA_TEAM_API_KEY
-    steps:
-      - set-x: set -x
-      - try-docker: |
-
   test-podman:
     #requires: [~pr, ~commit]
     steps:
