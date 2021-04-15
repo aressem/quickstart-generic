@@ -13,6 +13,8 @@ jobs:
     annotations:
       screwdriver.cd/cpu: 7
       screwdriver.cd/ram: 16
+    secrets:
+      - ALBUM_RECOMMENDATION_JAVA_DEPLOY_KEY
     steps:
       - clone: |
           git clone https://github.com/vespa-engine/sample-apps
