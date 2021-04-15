@@ -114,7 +114,7 @@ jobs:
           docker exec -ti vespa /usr/bin/hostname
           docker exec -ti vespa /usr/bin/cat /etc/hostname
           docker exec -ti vespa /usr/bin/cat /etc/hosts
-          docker exec -ti vespa /usr/bin/nslookup vespa-container
+          #docker exec -ti vespa /usr/bin/nslookup vespa-container
 
           docker exec -ti vespa /opt/vespa/bin/vespa-logfmt -f -N
 
