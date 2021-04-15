@@ -89,7 +89,7 @@ jobs:
 
           cd $SD_DIND_SHARE_PATH
 
-          cat $SD_SOURCE_DIR/documentation/test/_test_config.yml | grep -E "(^urls|docs.vespa.ai|cloud.vespa.ai)" > _test_config.yml
+          cat $SD_SOURCE_DIR/documentation/test/_test_config.yml | grep -E "(^urls|docs.vespa.ai|raw.githubusercontent.com)" > _test_config.yml
 
           # Run all tests
           $SD_SOURCE_DIR/documentation/test/test.py
