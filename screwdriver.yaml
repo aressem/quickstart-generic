@@ -45,8 +45,8 @@ jobs:
       screwdriver.cd/cpu: 7
       screwdriver.cd/ram: 16
       screwdriver.cd/dockerEnabled: true
-      screwdriver.cd/dockerCpu: TURBO
-      screwdriver.cd/dockerRam: TURBO
+      screwdriver.cd/dockerCpu: HIGH
+      screwdriver.cd/dockerRam: HIGH
     steps:
       - set-x: set -x
       - try-docker: |
