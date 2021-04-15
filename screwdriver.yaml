@@ -45,8 +45,8 @@ jobs:
       screwdriver.cd/cpu: 7
       screwdriver.cd/ram: 16
       screwdriver.cd/dockerEnabled: true
-      screwdriver.cd/dockerCpu: 7
-      screwdriver.cd/dockerRam: 16
+      screwdriver.cd/dockerCpu: TURBO
+      screwdriver.cd/dockerRam: TURBO
     steps:
       - set-x: set -x
       - try-docker: |
@@ -114,7 +114,7 @@ jobs:
           docker exec -ti vespa /usr/bin/hostname
           docker exec -ti vespa /usr/bin/cat /etc/hostname
           docker exec -ti vespa /usr/bin/cat /etc/hosts
-          docker exec -ti vespa /usr/bin/nslookup \$(hostname)
+          docker exec -ti vespa /usr/bin/nslookup vespa-container
 
           docker exec -ti vespa /opt/vespa/bin/vespa-logfmt -f -N
 
