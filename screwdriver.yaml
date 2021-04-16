@@ -90,8 +90,8 @@ jobs:
     image: docker.io/centos:8
     annotations:
       screwdriver.cd/timeout: 300
-      screwdriver.cd/cpu: 4
-      screwdriver.cd/ram: 8
+      screwdriver.cd/cpu: 7
+      screwdriver.cd/ram: 16
       screwdriver.cd/dockerEnabled: true
       screwdriver.cd/dockerCpu: TURBO
       screwdriver.cd/dockerRam: TURBO
