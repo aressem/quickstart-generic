@@ -110,10 +110,10 @@ jobs:
           dnf install -y docker-ce-cli
           docker system info
           ls -la $SD_DIND_SHARE_PATH
-       - install-python: |
+      - install-python: |
           dnf install -y python38-pip
           dnf install -y --enablerepo=powertools pandoc
-       - link-check-html-build: |
+      - link-check-html-build: |
           dnf install -y --enablerepo=powertools pandoc
           pip3 install -r docs/sphinx/source/requirements.txt
           sphinx-build -E -b linkcheck docs/sphinx/source docs/sphinx/build
