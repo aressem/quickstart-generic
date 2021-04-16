@@ -139,7 +139,7 @@ jobs:
           #find docs -name '*.ipynb' ! -name '*cloud*.ipynb' -exec jupyter nbconvert --to notebook --ExecutePreprocessor.timeout=600 --execute {} +
           #find docs -name '*.nbconvert.ipynb' -exec rm {} +
       - run-integration-running-instance: |
-          pip install -e .[full]
+          pip3 install -e .[full]
           pytest vespa/test_integration_running_instance.py
       - run-integration-docker: |
           docker pull vespaengine/vespa
