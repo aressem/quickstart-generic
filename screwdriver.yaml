@@ -42,7 +42,7 @@ jobs:
 
   test-documentation:
     image: vespaengine/vespa-pipeline
-    requires: [~commit]
+    #requires: [~commit]
     annotations:
       screwdriver.cd/timeout: 300
       screwdriver.cd/cpu: 4
@@ -84,6 +84,40 @@ jobs:
 
           # Run all tests
           $SD_SOURCE_DIR/documentation/test/test.py
+
+  test-pyvespa:
+    requires: [~commit]
+    image: docker.io/centos:8
+    annotations:
+      screwdriver.cd/timeout: 300
+      screwdriver.cd/cpu: 4
+      screwdriver.cd/ram: 8
+      screwdriver.cd/dockerEnabled: true
+      screwdriver.cd/dockerCpu: TURBO
+      screwdriver.cd/dockerRam: TURBO
+    environment:
+      WORK_DIR: /home/travis/build/vespa-engine/pyvespa
+      RESOURCES_DIR: /home/travis/build/vespa-engine/pyvespa/vespa/resources
+      PYVESPA_VERSION: 0.2
+      DOCKER_HOST: "localhost:2375"
+    steps:
+      - clone: |
+          git clone https://github.com/vespa-engine/pyvevspa
+          cd pyvespa
+      - install-docker: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+          dnf install -y docker-ce-cli
+          docker system info
+          ls -la $SD_DIND_SHARE_PATH
+       - install-python: |
+          dnf install -y python38-pip
+          dnf install -y --enablerepo=powertools pandoc
+       - link-check-html-build: |
+          dnf install -y --enablerepo=powertools pandoc
+          pip3 install -r docs/sphinx/source/requirements.txt
+          sphinx-build -E -b linkcheck docs/sphinx/source docs/sphinx/build
+          sphinx-build -E docs/sphinx/source docs/sphinx/build
 
   test-podman:
     #requires: [~pr, ~commit]
