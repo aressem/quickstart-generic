@@ -135,9 +135,9 @@ jobs:
           pip3 install notebook nbconvert
           pip3 install -e .[full]
           pip3 install -r docs/sphinx/source/notebook_requirements.txt
-          #find docs -name '*.ipynb' ! -name '*cloud*.ipynb'
-          #find docs -name '*.ipynb' ! -name '*cloud*.ipynb' -exec jupyter nbconvert --to notebook --ExecutePreprocessor.timeout=600 --execute {} +
-          #find docs -name '*.nbconvert.ipynb' -exec rm {} +
+          find docs -name '*.ipynb' ! -name '*cloud*.ipynb'
+          find docs -name '*.ipynb' ! -name '*cloud*.ipynb' -exec jupyter nbconvert --to notebook --ExecutePreprocessor.timeout=1000 --execute {} +
+          find docs -name '*.nbconvert.ipynb' -exec rm {} +
       - run-integration-running-instance: |
           pip3 install -e .[full]
           pytest vespa/test_integration_running_instance.py
