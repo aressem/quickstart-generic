@@ -98,6 +98,8 @@ jobs:
     environment:
       PYVESPA_VERSION: 0.2
       DOCKER_HOST: "localhost:2375"
+    secrets:
+      - VESPA_TEAM_API_KEY
     steps:
       - clone: |
           dnf install -y git
@@ -106,6 +108,7 @@ jobs:
           #export WORK_DIR=$(pwd)
           export WORK_DIR=$SD_DIND_SHARE_PATH
           export RESOURCES_DIR=$(pwd)/vespa/resources
+          export VESPA_CLOUD_USER_KEY=$VESPA_TEAM_API_KEY
       - install-docker: |
           dnf install -y dnf-plugins-core
           dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -131,12 +134,12 @@ jobs:
           pip3 install notebook nbconvert
           pip3 install -e .[full]
           pip3 install -r docs/sphinx/source/notebook_requirements.txt
-          find docs -name '*.ipynb' ! -name '*cloud*.ipynb'
-          find docs -name '*.ipynb' ! -name '*cloud*.ipynb' -exec jupyter nbconvert --to notebook --ExecutePreprocessor.timeout=600 --execute {} +
-          find docs -name '*.nbconvert.ipynb' -exec rm {} +
+          #find docs -name '*.ipynb' ! -name '*cloud*.ipynb'
+          #find docs -name '*.ipynb' ! -name '*cloud*.ipynb' -exec jupyter nbconvert --to notebook --ExecutePreprocessor.timeout=600 --execute {} +
+          #find docs -name '*.nbconvert.ipynb' -exec rm {} +
       - run-integration-running-instance: |
           pip install -e .[full]
-          travis_wait 600 pytest vespa/test_integration_running_instance.py
+          pytest vespa/test_integration_running_instance.py
       - run-integration-docker: |
           docker pull vespaengine/vespa
           pip3 install -e .[full]
