@@ -64,6 +64,7 @@ jobs:
           mount
           df -h
           pwd
+          docker run --privileged --memory 8G --rm -ti alpine cat /etc/alpine-release
 
       - test: |
           yum install -y git
