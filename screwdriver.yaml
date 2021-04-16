@@ -96,8 +96,6 @@ jobs:
       screwdriver.cd/dockerCpu: TURBO
       screwdriver.cd/dockerRam: TURBO
     environment:
-      WORK_DIR: /home/travis/build/vespa-engine/pyvespa
-      RESOURCES_DIR: /home/travis/build/vespa-engine/pyvespa/vespa/resources
       PYVESPA_VERSION: 0.2
       DOCKER_HOST: "localhost:2375"
     steps:
@@ -105,6 +103,8 @@ jobs:
           dnf install -y git
           git clone https://github.com/vespa-engine/pyvespa
           cd pyvespa
+          export WORK_DIR=$(pwd)
+          export RESOURCES_DIR=$(pwd)/vespa/resources
       - install-docker: |
           dnf install -y dnf-plugins-core
           dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
