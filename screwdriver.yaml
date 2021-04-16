@@ -103,7 +103,7 @@ jobs:
     steps:
       - clone: |
           dnf install -y git
-          git clone https://github.com/vespa-engine/pyvevspa
+          git clone https://github.com/vespa-engine/pyvespa
           cd pyvespa
       - install-docker: |
           dnf install -y dnf-plugins-core
